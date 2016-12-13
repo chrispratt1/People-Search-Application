@@ -3,10 +3,12 @@
 }
 
 <div class="jumbotron">
-    <h1>PeopleSearch</h1>
-    <p class="lead">Enter a name for a new Person: </p>
-    <input type="text" id="search" placeholder=" live search">
-    <button onclick="search()" class="btn btn-primary">Search &raquo;</button>
+    <div id="header">
+        <h1>PeopleSearch</h1>
+        <p class="lead">Enter a name to search: </p>
+        <input type="text" id="search" placeholder=" name">
+        <button onclick="search()" class="btn btn-primary">Go &raquo;</button>
+    </div>
 </div>
 
 <div class="row">
@@ -60,21 +62,6 @@
 </div>
 
 <script>
-    function search2() {
-        var search = document.getElementById('search').value.toString();
-
-        $('#listofpeople tr').each(function(){
-            $(this).find('td').each(function(){
-                if (this.innerHTML.indexOf("Chris") !== -1) {
-                    $(this).siblings().show();
-                } else {
-                    $(this).siblings().hide();
-                    $(this).hide();
-                }
-            })
-        })
-    }
-
     function search() {
         // Declare variables 
         var input, filter, table, tr, td, i;

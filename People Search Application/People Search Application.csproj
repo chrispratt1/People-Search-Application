@@ -177,6 +177,7 @@
     <Content Include="Content\Images\arthur.jpg" />
     <Content Include="Content\Images\arthurhardy.jpg" />
     <Content Include="Content\Images\arthurjones.jpg" />
+    <Content Include="Content\Images\background.jpg" />
     <Content Include="Content\Images\chris.jpg" />
     <Content Include="Content\Images\chrispratt.jpg" />
     <Content Include="Content\Images\chrissmith.jpg" />
