@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>PeopleSearch</h1>
+    <p class="lead">Enter a name for a new Person: </p>
+    <input type="text" id="search" placeholder="  live search">
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Add a person:</h2>
+
+        <div id="personList">
+            <table class="table table-hover" id="listofpeople">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Age</th>
+                        <th>Interests</th>
+                        <th>Picture</th>
+                    </tr>
+                </thead>
+
+                @foreach (var person in ViewBag.people)
+                {
+
+                    <tbody>
+                        <tr>
+                            <td>@person.name</td>
+                            <td>@person.address</td>
+                            <td>@person.age</td>
+                            <td>@person.interests</td>
+                            <td><img src="~/Content/Images/@person.picture"></td>
+                        </tr>
+                    </tbody>
+                }
+            </table>
+        </div>
+
+        <div class="form-group">
+            <label>Name:</label>
+            <input type="text" placeholder="Name" id="name" />
+            <input type="text" placeholder="Address" id="address" />
+            <input type="text" placeholder="Age" id="age" />
+            <input type="text" placeholder="Interests" id="interests" />
+            <input type="text" placeholder="Picture" id="picture" />
+            <button onclick="addPerson()" class="btn btn-primary">Add a Person &raquo;</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function addPerson() {
+        var name = document.getElementById('name').value;
+        var address = document.getElementById('address').value;
+        var age = document.getElementById('age').value;
+        var interests = document.getElementById('interests').value;
+        var picture = document.getElementById('picture').value;
+        var person = "@ViewBag.person.personID";
+
+        $.ajax({
+            type: "POST",
+            url: 'http://localhost:59179/Home/AddPerson',
+            data: {
+                name: name,
+                personID: person,
+                address: address,
+                age: age,
+                interests: interests,
+                picture: picture
+            }
+        }).done(function (res) {
+            // Update view and add person
+            $('#listofpeople tr:last').after('<tr><td>' + name + '</td><td>' + address + '</td><td>' + age + '</td><td>' + interests + '</td><td><img src="/Content/Images/' + picture + '"></td></tr>');
+        })
+    }
+
+    $("#search").on("keyup", function () {
+        var value = $(this).val();
+
+        // remove all highlighted text passing all em tags
+        removeHighlighting($("table tr em"));
+
+        $("table tr").each(function (index) {
+            if (index !== 0) {
+                $row = $(this);
+
+                var $tdElement = $row.find("td:first");
+                var id = $tdElement.text();
+                var matchedIndex = id.indexOf(value);
+
+                if (matchedIndex != 0) {
+                    $row.hide();
+                }
+                else {
+                    //highlight matching text, passing element and matched text
+                    addHighlighting($tdElement, value);
+                    $row.show();
+                }
+            }
+        });
+    });
+</script>
